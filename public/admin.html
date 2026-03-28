@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Lost & Found Portal</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body style="overflow: hidden;">
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" style="width: 260px; flex-shrink: 0;">
+            <div class="sidebar-header">
+                <div class="logo-icon"><i class="fa-solid fa-user-shield"></i></div>
+                <div class="logo-text">Admin <span style="font-weight: 300;">Command</span></div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-group-label">General</div>
+                <a href="dashboard.html" class="nav-item">
+                    <i class="fa-solid fa-house"></i> Back to Hub
+                </a>
+                
+                <div class="nav-group-label" style="margin-top:20px">Data Records</div>
+                <a href="#" class="nav-item active" onclick="loadAdminData('users', this)">
+                    <i class="fa-solid fa-users-gear"></i> Manage Users
+                </a>
+                <a href="#" class="nav-item" onclick="loadAdminData('lost-items', this)">
+                    <i class="fa-solid fa-rectangle-list"></i> Lost Items
+                </a>
+                <a href="#" class="nav-item" onclick="loadAdminData('found-items', this)">
+                    <i class="fa-solid fa-box-archive"></i> Found Items
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-pill" style="opacity:0.8">
+                    <div class="user-avatar" style="background:var(--danger)">A</div>
+                    <div class="user-info">
+                        <span class="user-name-text">Administrator</span>
+                        <span class="user-role-text">Live Control</span>
+                    </div>
+                </div>
+                <a href="#" id="logout-btn" class="nav-item logout-item">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content" style="padding: 2rem; flex: 1; display: flex; flex-direction: column; overflow-x: hidden;">
+            <header class="top-header" style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                 <h1 style="margin:0; font-size: 2rem; background: linear-gradient(90deg, #6366f1, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Admin Command Center</h1>
+                 <div style="color:var(--text-secondary); font-size:0.85rem">Status: <span style="color:var(--success)">● System Online</span></div>
+            </header>
+
+            <section class="fade-in" style="flex: 1; display: flex; flex-direction: column;">
+                <div class="glass-card" style="width: 100%; max-width: none !important; height: 100%; padding: 2rem; border-radius: 20px; display: flex; flex-direction: column; flex: 1;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 2rem;">
+                         <h3 id="current-view-title" style="margin:0; color:var(--primary); font-size: 1.6rem">All Records</h3>
+                         <div class="search-bar" style="margin-right:0; width:300px; display:none">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" placeholder="Filter current view...">
+                         </div>
+                    </div>
+
+                    <div style="overflow-x: hidden; flex: 1; width: 100%;">
+                        <table class="admin-table" style="width:100%; text-align: left; border-collapse: separate; border-spacing: 0 12px; table-layout: fixed; word-wrap: break-word;">
+                            <thead id="table-head">
+                                <!-- Head via JS -->
+                            </thead>
+                            <tbody id="table-body">
+                                <!-- Body via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>
