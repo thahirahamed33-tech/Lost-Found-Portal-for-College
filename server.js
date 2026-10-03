@@ -48,13 +48,18 @@ app.use(session({
 }));
 
 // Create default admin if not exists
-const checkAdmin = db.prepare('SELECT id FROM users WHERE role = ?').get('admin');
-if (!checkAdmin) {
-  const hash = bcrypt.hashSync('admin123', 10);
-  db.prepare('INSERT INTO users (id, fullname, reg_no, email, password, role) VALUES (?, ?, ?, ?, ?, ?)')
-    .run(nanoid(), 'College Admin', 'ADMIN', 'admin@college.edu', hash, 'admin');
-  console.log('Default admin created: admin@college.edu / admin123');
+try {
+  const checkAdmin = db.prepare('SELECT id FROM users WHERE role = ?').get('admin');
+  if (!checkAdmin) {
+    const hash = bcrypt.hashSync('admin123', 10);
+    db.prepare('INSERT INTO users (id, fullname, reg_no, email, password, role) VALUES (?, ?, ?, ?, ?, ?)')
+      .run(nanoid(), 'College Admin', 'ADMIN', 'admin@college.edu', hash, 'admin');
+    console.log('Default admin created: admin@college.edu / admin123');
+  }
+} catch (e) {
+  console.log("Admin initialization warning:", e.message);
 }
+
 
 // Import Routers
 const authRoutes = require('./backend/routes/authRoutes');
