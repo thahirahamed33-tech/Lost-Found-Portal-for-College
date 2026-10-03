@@ -64,6 +64,11 @@ app.use('/api', notificationRoutes);
 app.use('/api', adminRoutes);
 app.use('/api', profileRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;
+
