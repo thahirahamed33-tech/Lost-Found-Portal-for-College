@@ -3,35 +3,7 @@ const session = require('express-session');
 const path = require('path');
 const bcrypt = require('bcryptjs');
 const { nanoid } = require('nanoid');
-const multer = require('multer');
-const fs = require('fs');
 const db = require('./backend/db/database');
-
-const uploadDir = process.env.VERCEL 
-  ? path.join('/tmp', 'uploads') 
-  : path.join(__dirname, 'frontend', 'uploads');
-
-try {
-  if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
-  }
-} catch (err) {
-  console.log('Upload directory warning:', err.message);
-}
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, uploadDir)
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname))
-  }
-});
-const upload = multer({ storage: storage });
-
-
-// Export upload for routes to use it
-module.exports.upload = upload;
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -60,7 +32,6 @@ try {
   console.log("Admin initialization warning:", e.message);
 }
 
-
 // Import Routers
 const authRoutes = require('./backend/routes/authRoutes');
 const lostRoutes = require('./backend/routes/lostRoutes');
@@ -77,6 +48,12 @@ app.use('/api', notificationRoutes);
 app.use('/api', adminRoutes);
 app.use('/api', profileRoutes);
 
+// Express 5 compatible catch-all route handler
+app.use((req, res, next) => {
+  if (req.path.startsWith('/api')) return next();
+  res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+});
+
 if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
@@ -84,4 +61,3 @@ if (require.main === module) {
 }
 
 module.exports = app;
-
