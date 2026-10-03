@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost and Found Portal for College</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="auth-container">
+        <!-- LOGIN Form -->
+        <div id="login-section" class="glass-card fade-in">
+            <h1>Welcome Back</h1>
+            <p style="color:var(--text-secondary); margin-bottom: 2rem;">Log in to report or find lost items.</p>
+            <form id="login-form">
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input type="email" id="login-email" placeholder="e.g. name@college.edu" required autocomplete="email">
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="login-password" placeholder="••••••••" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn btn-primary" id="login-btn">
+                    Login
+                </button>
+            </form>
+            <p style="margin-top: 1.5rem; text-align: center; color: var(--text-secondary);">
+                Don't have an account? <a href="#" id="to-register" style="color: var(--primary); text-decoration: none; font-weight: 600;">Register here</a>
+            </p>
+        </div>
+
+        <!-- REGISTER Form (Hidden by Default) -->
+        <div id="register-section" class="glass-card fade-in" style="display: none;">
+            <h1>Join the Portal</h1>
+            <p style="color:var(--text-secondary); margin-bottom: 2rem;">Register to help your campus stay organized.</p>
+            <form id="register-form">
+                <div class="input-group">
+                    <label>Full Name</label>
+                    <input type="text" id="reg-fullname" placeholder="John Dou" required>
+                </div>
+                <div class="input-group">
+                    <label>Register Number</label>
+                    <input type="text" id="reg-no" placeholder="e.g. 20BRS1001" required>
+                </div>
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input type="email" id="reg-email" placeholder="e.g. name@college.edu" required>
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="reg-password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary" id="register-btn">
+                    Create Account
+                </button>
+            </form>
+            <p style="margin-top: 1.5rem; text-align: center; color: var(--text-secondary);">
+                Already have an account? <a href="#" id="to-login" style="color: var(--primary); text-decoration: none; font-weight: 600;">Login here</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>

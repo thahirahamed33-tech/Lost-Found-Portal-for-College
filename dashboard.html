@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Campus Lost & Found Portal</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header" style="padding: 1.5rem 1rem;">
+                <div style="display:flex; align-items:center; gap: 0.8rem;">
+                    <div class="logo-icon" style="width: 38px; height: 38px; flex-shrink: 0;"><i class="fa-solid fa-magnifying-glass-location"></i></div>
+                    <div>
+                        <div style="font-size: 1rem; font-weight: 800; letter-spacing: 0.5px; line-height: 1.2;">Campus <span style="background: linear-gradient(90deg, #6366f1, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">L&F</span></div>
+                        <div style="font-size: 0.65rem; color: var(--text-secondary); font-weight: 400; letter-spacing: 1px; text-transform: uppercase;">Lost & Found Portal</div>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-group-label">General</div>
+                <a href="#" class="nav-item active" onclick="showSection('dashboard-section', this)">
+                    <i class="fa-solid fa-house"></i> Overview
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('notifications-section', this)">
+                    <i class="fa-solid fa-clock-rotate-left"></i> Notifications
+                    <span id="sidebar-notif-count" style="background:var(--danger); color:white; font-size:0.6rem; padding:1px 5px; border-radius:50%; margin-left:auto; display:none">0</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('all-lost-section', this)">
+                    <i class="fa-solid fa-list-ul"></i> All Lost Items
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('found-section', this)">
+                    <i class="fa-solid fa-box-open"></i> Found Items
+                </a>
+                
+                <div class="nav-group-label" style="margin-top:20px">Actions</div>
+                <a href="#" class="nav-item action-lost" onclick="showSection('report-lost-section', this)">
+                    <i class="fa-solid fa-circle-plus"></i> Report Lost
+                </a>
+                <a href="#" class="nav-item action-found" onclick="showSection('report-found-section', this)">
+                    <i class="fa-solid fa-handshake-angle"></i> Report Found
+                </a>
+
+                <a href="admin.html" id="admin-link" class="nav-item" style="display: none; margin-top: auto; border-top: 1px solid var(--glass-border); padding-top: 20px;">
+                    <i class="fa-solid fa-user-shield"></i> Admin Panel
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-pill" onclick="showSection('profile-section')" style="cursor: pointer">
+                    <div class="user-avatar" id="user-initial">U</div>
+                    <div class="user-info">
+                        <span class="user-name-text" id="user-display-name">Loading...</span>
+                        <span class="user-role-text" id="user-role-label">Member</span>
+                    </div>
+                </div>
+                <a href="#" id="logout-btn" class="nav-item logout-item">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content" style="padding: 2rem 5%; width: 100%;">
+            <header class="top-header" style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 2rem;">
+                <div class="header-actions">
+                    <div class="notif-bell" id="bell-icon" style="position: relative; cursor: pointer;">
+                        <div class="bell-wrapper" style="font-size: 1.2rem; color: var(--text-secondary);">
+                            <i class="fa-solid fa-bell"></i>
+                            <span class="count" id="notif-count" style="position:absolute; top:-5px; right:-8px; background:var(--danger); color:white; font-size:0.6rem; padding:2px 5px; border-radius:50%; display:none;">0</span>
+                        </div>
+                        <div class="notif-dropdown" id="notif-dropdown">
+                            <div class="notif-header">
+                                <span>Notifications</span>
+                                <a href="#" id="mark-all">Clear All</a>
+                            </div>
+                            <div id="notif-list"></div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <section id="dashboard-section" class="fade-in">
+                <div class="hero-card">
+                    <div class="hero-content">
+                        <h1>College Campus Recovery System</h1>
+                        <p>Report lost items, find recovered belongings, and help reunite items with their owners. Our secure platform ensures every item finds its way home.</p>
+                        <div class="hero-actions">
+                            <button onclick="showSection('report-lost-section')" class="btn btn-primary" style="width:auto; padding: 0.8rem 2rem;">Report Lost Item</button>
+                            <button onclick="showSection('found-section')" class="btn btn-secondary" style="width:auto; padding: 0.8rem 2rem;">Browse Found Items</button>
+                        </div>
+                    </div>
+                    <div class="hero-icon">
+                        <i class="fa-solid fa-handshake-angle"></i>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon lost"><i class="fa-solid fa-circle-question"></i></div>
+                        <div class="stat-info">
+                            <h2 id="stat-lost">0</h2>
+                            <p>Active Lost Reports</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon found"><i class="fa-solid fa-box-open"></i></div>
+                        <div class="stat-info">
+                            <h2 id="stat-found">0</h2>
+                            <p>Unclaimed Found Items</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon recovered"><i class="fa-regular fa-circle-check"></i></div>
+                        <div class="stat-info">
+                            <h2 id="stat-resolved">0</h2>
+                            <p>Items Recovered</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-content-grid">
+                    <div class="list-container">
+                        <div class="section-header">
+                            <h3><i class="fa-solid fa-clock-rotate-left"></i> My Reported Items</h3>
+                        </div>
+                        <div id="my-items-list" class="dashboard-grid">
+                            <p style="color:var(--text-secondary); padding: 20px;">You haven't reported anything yet.</p>
+                        </div>
+                    </div>
+                        <div class="info-card-container">
+                        <div class="glass-card info-card" style="padding: 1.5rem;">
+                            <h3 style="margin-bottom:0.5rem"><i class="fa-solid fa-chart-line"></i> Quick Stats</h3>
+                            <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 1.5rem;">Campus-wide item status</p>
+                            
+                            <div style="background:rgba(255,255,255,0.03); padding:1rem; border-radius:12px; margin-bottom:1rem; border:1px solid var(--glass-border)">
+                                <div style="display:flex; justify-content:space-between; align-items:center;">
+                                    <div>
+                                        <p style="font-size:0.75rem; margin:0; color:var(--text-secondary)">Pending Items</p>
+                                        <h2 style="margin:0; font-size:1.4rem" id="campus-pending">0</h2>
+                                    </div>
+                                    <div style="width:40px; height:40px; border-radius:10px; background:rgba(236, 72, 153, 0.1); display:flex; justify-content:center; align-items:center; color:var(--secondary)">
+                                        <i class="fa-solid fa-clock-rotate-left"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="background:rgba(255,255,255,0.03); padding:1rem; border-radius:12px; border:1px solid var(--glass-border)">
+                                <div style="display:flex; justify-content:space-between; align-items:center;">
+                                    <div>
+                                        <p style="font-size:0.75rem; margin:0; color:var(--text-secondary)">Claimed Items</p>
+                                        <h2 style="margin:0; font-size:1.4rem" id="campus-claimed">0</h2>
+                                    </div>
+                                    <div style="width:40px; height:40px; border-radius:10px; background:rgba(16, 185, 129, 0.1); display:flex; justify-content:center; align-items:center; color:var(--success)">
+                                        <i class="fa-solid fa-check-double"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="all-lost-section" class="fade-in" style="display: none;">
+                <div style="margin-bottom: 2rem;">
+                    <h1>Lost Items on Campus</h1>
+                    <p style="color:var(--text-secondary)">These are items reported lost by students.</p>
+                </div>
+                <div id="all-lost-list" class="dashboard-grid"></div>
+            </section>
+
+            <section id="found-section" class="fade-in" style="display: none;">
+                <div style="margin-bottom: 2rem;">
+                    <h1>All Found Items</h1>
+                    <p style="color:var(--text-secondary)">List of items found across campus.</p>
+                </div>
+                <div id="found-items-list" class="dashboard-grid"></div>
+            </section>
+
+            <section id="report-lost-section" class="fade-in" style="display: none; max-width: 700px; margin: 0 auto;">
+                <div class="glass-card" style="padding: 2.5rem;">
+                    <h1>Report Lost Item</h1>
+                    <form id="lost-form">
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="input-group">
+                                <label>Item Name</label>
+                                <input type="text" id="lost-name" placeholder="Enter item name..." required>
+                            </div>
+                            <div class="input-group">
+                                <label>Category</label>
+                                <select id="lost-category" required>
+                                    <option value="">Select Category</option>
+                                    <option value="Bags">Bags</option>
+                                    <option value="Cloths">Cloths</option>
+                                    <option value="Books">Books</option>
+                                    <option value="Accessories">Accessories</option>
+                                    <option value="Electronics">Electronics</option>
+                                    <option value="Keys">Keys</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="input-group">
+                                <label>Date Lost</label>
+                                <input type="date" id="lost-date" required>
+                            </div>
+                            <div class="input-group">
+                                <label>Location</label>
+                                <input type="text" id="lost-location" placeholder="Enter location..." required>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label style="color: var(--primary); font-weight: 600;">📸 Evidence / Image Upload</label>
+                            <label for="lost-image" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 130px; border: 2px dashed rgba(99, 102, 241, 0.4); border-radius: 16px; cursor: pointer; background: linear-gradient(145deg, rgba(99,102,241,0.05), transparent); transition: all 0.3s ease;">
+                                <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2.5rem; color: var(--primary); margin-bottom: 0.8rem; filter: drop-shadow(0 4px 6px rgba(99,102,241,0.3));"></i>
+                                <span id="lost-image-text" style="color: var(--text-secondary); font-weight: 500;">Click or drag to upload a high-quality photo</span>
+                            </label>
+                            <input type="file" id="lost-image" accept="image/*" style="display: none;" onchange="document.getElementById('lost-image-text').innerHTML = this.files[0] ? `<span style='color:var(--primary); font-weight: 600;'>File selected:</span> ` + this.files[0].name : 'Click or drag to upload a high-quality photo'">
+                        </div>
+                        <div class="input-group">
+                            <label>Contact Info</label>
+                            <input type="text" id="lost-contact" placeholder="E.g., phone number or email" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Description</label>
+                            <textarea id="lost-desc" rows="4" placeholder="Provide details..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit Report</button>
+                        <button type="button" onclick="showSection('dashboard-section')" class="btn btn-secondary" style="margin-top:10px">Cancel</button>
+                    </form>
+                </div>
+            </section>
+
+            <section id="report-found-section" class="fade-in" style="display: none; max-width: 700px; margin: 0 auto;">
+                <div class="glass-card" style="padding: 2.5rem;">
+                    <h1>Found an Item?</h1>
+                    <form id="found-form">
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="input-group">
+                                <label>Item Name</label>
+                                <input type="text" id="found-name" placeholder="Enter item name..." required>
+                            </div>
+                            <div class="input-group">
+                                <label>Category</label>
+                                <select id="found-category" required>
+                                    <option value="">Select Category</option>
+                                    <option value="Bags">Bags</option>
+                                    <option value="Cloths">Cloths</option>
+                                    <option value="Books">Books</option>
+                                    <option value="Accessories">Accessories</option>
+                                    <option value="Electronics">Electronics</option>
+                                    <option value="Keys">Keys</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="input-group">
+                                <label>Date Found</label>
+                                <input type="date" id="found-date" required>
+                            </div>
+                            <div class="input-group">
+                                <label>Location</label>
+                                <input type="text" id="found-location" placeholder="Enter location..." required>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label style="color: var(--success); font-weight: 600;">📸 Proof of Discovery</label>
+                            <label for="found-image" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 130px; border: 2px dashed rgba(16, 185, 129, 0.4); border-radius: 16px; cursor: pointer; background: linear-gradient(145deg, rgba(16,185,129,0.05), transparent); transition: all 0.3s ease;">
+                                <i class="fa-solid fa-camera-retro" style="font-size: 2.5rem; color: var(--success); margin-bottom: 0.8rem; filter: drop-shadow(0 4px 6px rgba(16,185,129,0.3));"></i>
+                                <span id="found-image-text" style="color: var(--text-secondary); font-weight: 500;">Snap a clear picture of the item</span>
+                            </label>
+                            <input type="file" id="found-image" accept="image/*" style="display: none;" onchange="document.getElementById('found-image-text').innerHTML = this.files[0] ? `<span style='color:var(--success); font-weight: 600;'>File selected:</span> ` + this.files[0].name : 'Snap a clear picture of the item'">
+                        </div>
+                        <div class="input-group">
+                            <label>Contact Info</label>
+                            <input type="text" id="found-contact" placeholder="E.g., phone number or email" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Description</label>
+                            <textarea id="found-desc" rows="4" placeholder="Provide details..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="background: var(--success)">Report Finding</button>
+                        <button type="button" onclick="showSection('dashboard-section')" class="btn btn-secondary" style="margin-top:10px">Cancel</button>
+                    </form>
+                </div>
+            </section>
+            <section id="profile-section" class="fade-in" style="display: none; max-width: 800px; margin: 2rem auto;">
+                <div class="glass-card" style="padding: 2.5rem;">
+                    <div style="display:flex; align-items:center; gap:1.5rem; margin-bottom:2rem; border-bottom:1px solid var(--glass-border); padding-bottom:1.5rem">
+                        <div class="user-avatar" style="width:70px; height:70px; font-size:2rem;" id="profile-initial">U</div>
+                        <div>
+                            <h2 style="margin:0" id="profile-fullname-display">User Name</h2>
+                            <p style="margin:0; color:var(--text-secondary); font-size:0.9rem" id="profile-email-display">user@college.edu</p>
+                            <span style="font-size:0.75rem; background:rgba(255,255,255,0.05); padding:2px 8px; border-radius:5px; color:var(--text-secondary)" id="profile-reg-display">REG: ----</span>
+                        </div>
+                    </div>
+
+                    <form id="profile-update-form">
+                        <div class="input-group">
+                            <label>Full Name</label>
+                            <input type="text" id="profile-fullname" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Email Address</label>
+                            <input type="email" id="profile-email" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Register Number</label>
+                            <input type="text" id="profile-reg" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="margin-top:2rem; width: 100%;">Save Changes</button>
+                    </form>
+                </div>
+            </section>
+            <section id="notifications-section" class="fade-in" style="display: none;">
+                <div style="margin-bottom: 2rem;">
+                    <h1>Notification History</h1>
+                    <p style="color:var(--text-secondary)">Keep track of matches and item updates.</p>
+                </div>
+                <div id="full-notif-list" class="dashboard-grid">
+                    <!-- Loaded via JS -->
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
