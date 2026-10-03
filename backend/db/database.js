@@ -1,8 +1,26 @@
 const Database = require('better-sqlite3');
 const path = require('path');
-const { nanoid } = require('nanoid');
+const fs = require('fs');
 
-const db = new Database(path.join(__dirname, '..', 'database.db'));
+let dbPath = path.join(__dirname, '..', 'database.db');
+
+
+if (process.env.VERCEL) {
+  const tmpDbPath = path.join('/tmp', 'database.db');
+  try {
+    if (!fs.existsSync(tmpDbPath) && fs.existsSync(dbPath)) {
+      fs.copyFileSync(dbPath, tmpDbPath);
+    }
+    if (fs.existsSync(tmpDbPath)) {
+      dbPath = tmpDbPath;
+    }
+  } catch (e) {
+    console.log("Vercel DB copy warning:", e.message);
+  }
+}
+
+const db = new Database(dbPath);
+
 
 // Tables initialization
 db.exec(`

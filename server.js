@@ -7,9 +7,16 @@ const multer = require('multer');
 const fs = require('fs');
 const db = require('./backend/db/database');
 
-const uploadDir = path.join(__dirname, 'frontend', 'uploads');
-if (!fs.existsSync(uploadDir)) {
+const uploadDir = process.env.VERCEL 
+  ? path.join('/tmp', 'uploads') 
+  : path.join(__dirname, 'frontend', 'uploads');
+
+try {
+  if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
+  }
+} catch (err) {
+  console.log('Upload directory warning:', err.message);
 }
 
 const storage = multer.diskStorage({
@@ -21,6 +28,7 @@ const storage = multer.diskStorage({
   }
 });
 const upload = multer({ storage: storage });
+
 
 // Export upload for routes to use it
 module.exports.upload = upload;
