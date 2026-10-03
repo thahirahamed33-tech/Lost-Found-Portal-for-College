@@ -1,0 +1,15 @@
+{
+  "users": [
+    {
+      "id": "zLP34oGsapkYlR_mVu-fW",
+      "fullname": "College Admin",
+      "reg_no": "ADMIN",
+      "email": "admin@college.edu",
+      "password": "$2b$10$PByndua9APwMx59YxvUge.JVcUI4soZzcrA9D0Fjk1opg1aS7QfjC",
+      "role": "admin"
+    }
+  ],
+  "lost_items": [],
+  "found_items": [],
+  "notifications": []
+}
