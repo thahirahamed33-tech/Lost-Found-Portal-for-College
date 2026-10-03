@@ -1,5 +1,5 @@
 const db = require('../db/database');
-const { nanoid } = require('nanoid');
+const { nanoid } = require('../utils/idGenerator');
 
 exports.reportFoundItem = (req, res) => {
   const { name, date, location, description, category, contact_info } = req.body;

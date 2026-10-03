@@ -1,4 +1,4 @@
-const { nanoid } = require('nanoid');
+const { nanoid } = require('../utils/idGenerator');
 const db = require('../db/database');
 
 exports.createLostItem = (req, res) => {

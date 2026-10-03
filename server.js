@@ -3,7 +3,7 @@ const session = require('express-session');
 const path = require('path');
 const fs = require('fs');
 const bcrypt = require('bcryptjs');
-const { nanoid } = require('nanoid');
+const { nanoid } = require('./backend/utils/idGenerator');
 const db = require('./backend/db/database');
 
 const app = express();

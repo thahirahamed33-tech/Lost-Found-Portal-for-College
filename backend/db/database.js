@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const bcrypt = require('bcryptjs');
-const { nanoid } = require('nanoid');
+const { nanoid } = require('../utils/idGenerator');
 
 // Force /tmp path when running on Vercel/serverless environments
 const isServerless = process.env.VERCEL || process.env.AWS_REGION || process.env.VERCEL_ENV || process.env.NODE_ENV === 'production';
