@@ -1,6 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
+const fs = require('fs');
 const bcrypt = require('bcryptjs');
 const { nanoid } = require('nanoid');
 const db = require('./backend/db/database');
@@ -11,6 +12,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname, 'frontend')));
 app.use(session({
   secret: 'lfd_college_secret_key',
@@ -48,10 +50,13 @@ app.use('/api', notificationRoutes);
 app.use('/api', adminRoutes);
 app.use('/api', profileRoutes);
 
-// Express 5 compatible catch-all route handler
+// Catch-all route handler for index.html
 app.use((req, res, next) => {
   if (req.path.startsWith('/api')) return next();
-  res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+  const indexPath = fs.existsSync(path.join(__dirname, 'index.html'))
+    ? path.join(__dirname, 'index.html')
+    : path.join(__dirname, 'frontend', 'index.html');
+  res.sendFile(indexPath);
 });
 
 if (require.main === module) {
