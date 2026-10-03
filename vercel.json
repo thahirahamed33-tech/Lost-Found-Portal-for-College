@@ -2,8 +2,44 @@
   "version": 2,
   "rewrites": [
     {
+      "source": "/api/(.*)",
+      "destination": "/api"
+    },
+    {
+      "source": "/css/(.*)",
+      "destination": "/frontend/css/$1"
+    },
+    {
+      "source": "/js/(.*)",
+      "destination": "/frontend/js/$1"
+    },
+    {
+      "source": "/img/(.*)",
+      "destination": "/frontend/img/$1"
+    },
+    {
+      "source": "/uploads/(.*)",
+      "destination": "/frontend/uploads/$1"
+    },
+    {
+      "source": "/admin.html",
+      "destination": "/frontend/admin.html"
+    },
+    {
+      "source": "/dashboard.html",
+      "destination": "/frontend/dashboard.html"
+    },
+    {
+      "source": "/index.html",
+      "destination": "/frontend/index.html"
+    },
+    {
+      "source": "/",
+      "destination": "/frontend/index.html"
+    },
+    {
       "source": "/(.*)",
-      "destination": "/server.js"
+      "destination": "/frontend/$1"
     }
   ]
 }
